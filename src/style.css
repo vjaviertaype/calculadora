@@ -28,8 +28,14 @@ h1 {
 
 #app {
   max-width: 1280px;
+  border: 1px solid gray;
+  border-radius: 8px;
+
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0.75rem 0.5rem;
+
+  background-color: #101010;
+
   text-align: center;
 }
 
@@ -48,20 +54,50 @@ h1 {
   width: 100%;
   height: auto;
 }
-.button:hover {
+
+.button:hover,
+.button[value="C"]:hover,
+.button[value="CE"]:hover {
   border-color: #646cff;
+  background-color: white;
+  color: black;
+  transition: all 0.25s;
 }
 .button:focus,
 .button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.button[value="C"] {
+  background-color: red;
+}
+
+.button[value="C"]:hover,
+.button[value="CE"]:hover {
+  background-color: white;
+  color: red;
+}
+
+.button[value="CE"] {
+  color: red;
+}
+
+table {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
 #display,
 .display {
-  padding: 0 1rem;
+  padding: 0 0.2rem;
 
-  width: 100%;
-  height: 100px;
+  min-width: 20rem;
+  height: 4rem;
 
   font-size: 2rem;
   font-weight: 700;

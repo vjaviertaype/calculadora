@@ -17,14 +17,6 @@ export function divide(a: number, b: number): number {
     return Infinity;
   }
 
-  if (a === 0) {
-    return 0;
-  }
-
-  if (b === b) {
-    return 1;
-  }
-
   return a / b;
 }
 
@@ -41,9 +33,9 @@ export function modulo(a: number, b: number): number {
 }
 
 export function tokenize(value: string): string[] {
-  const input = [];
-  const output = [];
-  let aux;
+  const input: string[] = [];
+  const output: string[] = [];
+  let aux: string;
 
   for (let i = 0; i < value.length; i++) {
     if (operators.includes(value[i])) {
@@ -66,35 +58,40 @@ export function tokenize(value: string): string[] {
   return output;
 }
 
-export function calculate(value: string): string {
-  const input = tokenize(value);
-  let numA: number, numB: number, i: number, aux: number;
-
-  let counter = 0;
-  input.forEach((element) => {
-    if (element === "√") {
+function replaceSquareToResult(input: string[]) {
+  let aux,
+    num,
+    counter = 0;
+  input.forEach((element, i) => {
+    if (element === operators[0] && !isNaN(Number(input[i + 1]))) {
       counter++;
     }
   });
 
   while (counter > 0) {
-    aux = input.indexOf("√");
-    if (
-      aux !== -1 &&
-      aux + 1 < input.length &&
-      !isNaN(Number(input[aux + 1]))
-    ) {
-      numA = Number(input[aux + 1]);
-      input.splice(aux, 2, sqrt(numA).toString());
+    aux = input.indexOf(operators[0]);
+    num = Number(input[aux + 1]);
+
+    if (aux !== -1 && aux + 1 < input.length && !isNaN(num)) {
+      input.splice(aux, 2, sqrt(num).toString());
       counter--;
     }
   }
+}
 
-  console.log(input);
+export function calculate(value: string): string {
+  const input = tokenize(value);
+  let numA: number, numB: number, i: number;
+
+  replaceSquareToResult(input);
 
   for (let operator of operators.slice(1)) {
     i = 0;
-    while (input.length > 1 && i < input.length && input[i] !== "NaN") {
+    while (
+      input.length > 1 &&
+      i < input.length &&
+      input[i] !== "Syntax Error"
+    ) {
       if (input[i] === operator) {
         if (
           i > 0 &&
@@ -111,7 +108,7 @@ export function calculate(value: string): string {
               break;
             case "/":
               if (numB === 0) {
-                input.splice(i - 1, 3, "NaN");
+                input.splice(i - 1, 3, "Syntax Error");
                 break;
               }
               input.splice(i - 1, 3, divide(numA, numB).toString());
@@ -133,6 +130,10 @@ export function calculate(value: string): string {
 
       i++;
     }
+  }
+
+  if (operators.includes(input[0]) || input.length > 1) {
+    return "Syntax Error";
   }
 
   return input[0];
