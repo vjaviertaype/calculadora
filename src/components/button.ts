@@ -19,3 +19,28 @@ export function addButtonToCell(
   cell.append(button);
   cell.colSpan = colSpan;
 }
+
+export function clearButton(value: string, callback: () => void) {
+  const button = document.createElement("button");
+
+  if (button === null) {
+    throw new Error("No clear logger element found");
+  }
+
+  button.style.backgroundColor = "red";
+  button.className = "button";
+  button.textContent = value;
+  button.addEventListener("click", callback);
+
+  button.addEventListener("mouseover", () => {
+    button.style.backgroundColor = "white";
+    button.style.color = "red";
+  })
+
+  button.addEventListener("mouseout", () => {
+    button.style.backgroundColor = "red";
+    button.style.color = "white";
+  })
+
+  return button
+}

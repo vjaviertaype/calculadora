@@ -1,5 +1,5 @@
 export class ManagerMemory {
-  private memory: string[];
+  public memory: string[];
 
   constructor() {
     this.memory = [];
@@ -16,6 +16,10 @@ export class ManagerMemory {
 
   getOne(index: number) {
     return this.memory[index];
+  }
+
+  getLast() {
+    return this.memory[this.memory.length - 1];
   }
 
   setOne(index: number, value: string) {

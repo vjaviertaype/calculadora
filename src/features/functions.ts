@@ -23,6 +23,8 @@ export function tokenize(value: string, ...separators: string[]): string[] {
     output.push(aux);
   }
 
+  console.log(output);
+
   return output;
 }
 
@@ -57,10 +59,10 @@ export function normalizeTokenInput(
 ): string[] {
   const input: string[] = tokenize(value, ...tokens);
 
+  unarySquare(input);
+  unaryPercent(input);
   unaryMinus(input);
   unaryPlus(input);
-  unaryPercent(input);
-  unarySquare(input);
   ruleOfSigns(input);
 
   return input;
